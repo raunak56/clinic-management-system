@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receptionist</title>
+    <!-- <script src="mainn.js" defer type="module"></script> -->
+    <link rel="stylesheet" href="styles.css">
+ 
+    <style>
+        body {
+          font-family: Arial, Helvetica, sans-serif;
+          background-color: rgb(0, 0, 0);
+        }
+        
+        * {
+          box-sizing: border-box;
+        }
+
+
+        
+        /* Add padding to containers */
+        .container {
+          padding: 106px;
+          background-color: white;
+    
+        }
+ 
+        
+        /* Full-width input fields */
+        input[type=text], input[type=password] {
+          width: 100%;
+          padding: 25px;
+          margin: 5px 0 22px 0;
+          display: inline-block;
+          border: none;
+          background: #f1f1f1;
+        }
+        
+        input[type=text]:focus, input[type=password]:focus {
+          background-color: #ddd;
+          outline: none;
+        }
+        
+        /* Overwrite default styles of hr */
+        hr {
+          border: 1px solid #f1f1f1;
+          margin-bottom: 25px;
+        }
+        
+        /* Set a style for the submit button */
+        .btn{
+          background-color: #1d95aa;
+          color: white;
+          display: flex;
+          position: relative;
+         justify-content: center;
+         align-items: center;
+          padding: 16px 20px;
+          margin:108px 0;
+          border: none;
+          cursor: pointer;
+          width: 100%;
+          opacity: 0.9;
+        }
+        
+        .btn:hover {
+          opacity:0.9;
+        }
+        
+        /* Add a blue text color to links */
+        a {
+          color: dodgerblue;
+        }
+        
+        /* Set a grey background color and center the text of the "sign in" section */
+        .signin {
+          background-color: #f1f1f1;
+          text-align: center;
+        }
+        h1{
+            font-size: 45px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(38, 193, 224);
+            color: #f1f1f1;
+            
+        }
+ 
+        .button{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+
+
+        </style>
+</head>
+<body>
+    <header>
+        <h1>Receptionist's Board</h1>
+    </header>
+
+ <div>
+    <br>
+    <div class="container">	
+      <h1>SignUp</h1>
+      <form name="registration_form" id="registration_form" method="post" action="#" enctype="multipart/form-data" >
+      <div class="row">
+    
+      <div class="col-sm-4">
+        <div class="form-group">
+            <label for="email">Email</label>
+          <input type="text" name="email" id="email" class="form" placeholder="Enter your email">
+        </div>
+        
+        <div class="form-group">
+            <label for="password" >Password</label>
+          <input type="password" name="password" id="password" class="form"  placeholder="Enter your password">
+        </div>
+        <button type="button" id="register" name="register" class="btn ">Register Now</button>
+      </div><!-- end col -->
+      </form>
+
+      <h1> SignIn</h1>
+      <form name="login_form" id="login_form" method="post" action="#" enctype="multipart/form-data" >
+      <div class="col-sm-4">
+        <div class="form-group">
+            <label for="email">Email</label>
+          <input type="text" name="login_email" id="login_email" class="form" placeholder="Enter your email">
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+          <input type="password" name="login_password" id="login_password" class="form"  placeholder="Enter your password">
+        </div>
+        <button type="button" id="login" name="login" class="btn ">Login</button>
+      </div><!-- end col -->
+      
+      </div><!--  end row -->		
+      </form>
+    </div>
+    <br>
+  </div>
+  
+
+
+    <footer>
+        <p>&copy; 2024 Clinic Management System. All rights reserved.</p>
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="app.js"></script>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAnalytics} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
+    import  {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+   
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyB_qCUJxUugLO4kJkoTfoCpcMSkoAXGywo",
+  authDomain: "prasad-clinic.firebaseapp.com",
+  projectId: "prasad-clinic",
+  storageBucket: "prasad-clinic.appspot.com",
+  messagingSenderId: "117725975073",
+  appId: "1:117725975073:web:b4b79391efa9b6d7fa0960",
+  measurementId: "G-Q7XM2XCJYS"
+};
+    // Initialize Firebase
+	  const app = initializeApp(firebaseConfig);
+	  const analytics = getAnalytics(app);
+	  const auth = getAuth();
+	  console.log(app);
+
+	  
+
+	  //----- New Registration code start	  
+	  document.getElementById("register").addEventListener("click", function() {
+		  var email =  document.getElementById("email").value;
+		  var password = document.getElementById("password").value;
+		  //For new registration
+		  createUserWithEmailAndPassword(auth, email, password)
+		  .then((userCredential) => {
+		    // Signed in 
+		    const user = userCredential.user;
+		    console.log(user);
+		    alert("Registration successfully!!");
+		    // ...
+		  })
+		  .catch((error) => {
+		    const errorCode = error.code;
+		    const errorMessage = error.message;
+		    // ..
+		    console.log(errorMessage);
+		    alert(error);
+		  });		  		  
+	  });
+	  //----- End
+
+	  //----- Login code start	  
+	  document.getElementById("login").addEventListener("click", function() {
+		  var email =  document.getElementById("login_email").value;
+		  var password = document.getElementById("login_password").value;
+
+		  signInWithEmailAndPassword(auth, email, password)
+		  .then(userCredential => {
+            window.location.href = 'receptionist_dashboard.html';
+        })
+		    // Signed in 
+		    const user = userCredential.user;
+		    console.log(user);
+		    alert(user.email+" Login successfully!!!");
+		    document.getElementById('logout').style.display = 'block';
+		    // ...
+		  })
+		  .catch((error) => {
+		    const errorCode = error.code;
+		    const errorMessage = error.message;
+		    console.log(errorMessage);
+		    alert(errorMessage);
+		  });		  		  
+
+	  //----- End
+
+
+
+	</script>
+</html>
